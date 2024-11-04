@@ -126,7 +126,7 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { fullName, email, phoneNumber, role, bio, skills } = req.body;
+    const { fullName, email, phoneNumber, bio, skills } = req.body;
     const file = req.file;
     // if (!fullName || !email || !phoneNumber || !role || !bio || !skills) {
     //   return res.status(400).json({
@@ -136,7 +136,7 @@ export const updateProfile = async (req, res) => {
     // }
     let skillsArray;
     if (skills) {
-      const skillsArray = skills.split(",");
+      skillsArray = skills.split(",");
     }
 
     const userId = req.id;
