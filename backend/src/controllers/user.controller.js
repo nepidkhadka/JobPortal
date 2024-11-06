@@ -1,11 +1,19 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataURL from "../utils/dataURI.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, role, password } = req.body;
-    console.log({ fullName, email, phoneNumber, role, password });
+
+    const file = req.file;
+    let cloudResponse = "";
+    if (file) {
+      const fileUri = getDataURL(file);
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    }
 
     if (!fullName || !email || !phoneNumber || !role || !password) {
       return res.status(400).json({
@@ -28,6 +36,9 @@ export const register = async (req, res) => {
       email,
       phoneNumber,
       role,
+      profile: {
+        profilePhoto: cloudResponse.secure_url,
+      },
       password: hashedPassword,
     });
 
@@ -128,6 +139,12 @@ export const updateProfile = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, bio, skills } = req.body;
     const file = req.file;
+    let cloudResponse;
+    if (file) {
+      const fileUri = getDataURL(file);
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    }
+
     // if (!fullName || !email || !phoneNumber || !role || !bio || !skills) {
     //   return res.status(400).json({
     //     message: "Please Enter Every Field",
@@ -153,6 +170,10 @@ export const updateProfile = async (req, res) => {
     if (phoneNumber) user.phoneNumber = phoneNumber;
     if (bio) user.profile.bio = bio;
     if (skills) user.profile.skills = skillsArray;
+    if (cloudResponse) {
+      user.profile.resume = cloudResponse.secure_url; // Save Cloudinary URL
+      user.profile.resumeOriginalName = file.originalname; // Save Original File Name
+    }
 
     await user.save();
 
@@ -171,6 +192,10 @@ export const updateProfile = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false,
+    });
   }
 };
