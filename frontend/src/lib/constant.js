@@ -1,3 +1,3 @@
-export const USER_API_URL = "http://localhost:8000/api/v1/user";
-export const JOB_API_URL = "http://localhost:8000/api/v1/job/";
-export const APPLICATION_API_URL = "http://localhost:8000/api/v1/application/";
+export const USER_API_URL = import.meta.env.VITE_USER_API_URL;
+export const JOB_API_URL = import.meta.env.VITE_JOB_API_URL;
+export const VITE_APPLICATION_API_URL = import.meta.env.VITE_BACKEND_URL;
