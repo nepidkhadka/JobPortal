@@ -1,8 +1,16 @@
 import JobCards from "@/components/JobCards";
+import { useGetJobsQuery } from "@/redux/api/jobsApi";
 import React from "react";
 
 const FeaturedJobs = () => {
-  let jobs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const { data, isLoading, isError } = useGetJobsQuery();
+  const allJobs = data?.jobs || [];
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+  if (isError) {
+    return <h1>Something went wrong</h1>;
+  }
 
   return (
     <section id="jobs-openings" className="home-section">
@@ -11,9 +19,13 @@ const FeaturedJobs = () => {
       </h2>
       {/* Job Cards */}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-10 py-5">
-        {jobs.slice(0, 8).map((job) => (
-          <JobCards key={job} jobs={job} />
-        ))}
+        {allJobs.length <= 0 ? (
+          <span>No Jobs Available</span>
+        ) : (
+          allJobs
+            .slice(0, 8)
+            .map((job) => <JobCards key={job._id} jobs={job} />)
+        )}
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { USER_API_URL } from "@/lib/constant";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -13,6 +14,7 @@ const Signup = () => {
     role: "",
     file: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const nav = useNavigate();
 
@@ -26,6 +28,7 @@ const Signup = () => {
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const formData = new FormData();
@@ -52,6 +55,8 @@ const Signup = () => {
     } catch (error) {
       toast.error(error.message);
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -178,6 +183,7 @@ const Signup = () => {
           </label>
           <input
             accept="image/*"
+            name="file"
             onChange={handleFileChange}
             className="text-sm text-gray-900 border border-gray-300 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             id="file"
@@ -185,12 +191,29 @@ const Signup = () => {
           />
         </div>
       </div>
-      <button
+      {loading ? (
+        <button
+          title="Signing Up"
+          disabled
+          className="text-white bg-primary/80 mt-6 font-medium rounded-lg text-sm w-full py-2.5 cursor-not-allowed "
+        >
+          <Loader2 size={16} className="animate-spin inline mr-2" />
+          Please Wait....
+        </button>
+      ) : (
+        <button
+          type="submit"
+          className="text-white  bg-primary mt-6 hover:bg-primary font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Sign up
+        </button>
+      )}
+      {/* <button
         type="submit"
         className="text-white  bg-primary mt-6 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Sign Up
-      </button>
+      </button> */}
       <span className="mt-4 block text-sm">
         Already Have An Account ?{" "}
         <Link to={"/login"} className="text-primary underline">

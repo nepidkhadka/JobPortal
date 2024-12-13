@@ -10,14 +10,20 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.user);
-  const isResume = true;
 
   return (
     <div className="py-8">
       <div className="border p-4 rounded-md relative shadow-md">
         <div className="flex items-center gap-8 mb-4 flex-wrap sm:flex-nowrap">
           <Avatar className="h-24 w-24">
-            <AvatarImage src="https://avatars.githubusercontent.com/u/124599?v=4" />
+            <AvatarImage
+              src={
+                user?.profile?.profilePhoto
+                  ? user?.profile?.profilePhoto
+                  : "https://avatars.githubusercontent.com/u/124599"
+              }
+              alt={user?.fullName}
+            />
           </Avatar>
           <div className="mr-8">
             <h2 className="font-bold">{user?.fullName}</h2>
@@ -46,23 +52,32 @@ const Profile = () => {
               {index}
             </Badge>
           ))} */}
-          {user?.profile?.skills.map((skill, index) => (
-            <Badge className="mr-2 cursor-pointer" key={index}>
-              {skill}
+          {!user?.profile?.skills ? (
+            <Badge variant="destructive" className="mr-2 cursor-pointer">
+              Skills Not Added
             </Badge>
-          ))}
+          ) : (
+            user?.profile?.skills.map((skill, index) => (
+              <Badge className="mr-2 cursor-pointer" key={index}>
+                {skill}
+              </Badge>
+            ))
+          )}
         </div>
         <div className="mt-4 border-t pt-4">
           <h2 className="font-semibold tracking-wider mb-2">Resume </h2>
-          {isResume ? (
+          {user?.profile?.resume ? (
             <a
-              href="/"
+              target="_blank"
+              href={user?.profile?.resume}
               className=" text-primary cursor-pointer hover:underline"
             >
-              Resume.pdf
+              {user?.profile?.resumeOriginalName}
             </a>
           ) : (
-            <span>NA</span>
+            <Badge variant="destructive" className="mr-2 cursor-pointer">
+              Resume Not Added
+            </Badge>
           )}
         </div>
       </div>

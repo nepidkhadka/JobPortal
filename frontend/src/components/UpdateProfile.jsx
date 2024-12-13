@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import axios from "axios";
 import { USER_API_URL } from "@/lib/constant";
-import { setUser } from "@/redux/userSlice";
+import { setUser } from "@/redux/slices/userSlice";
 
 const UpdateProfile = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
@@ -42,6 +42,7 @@ const UpdateProfile = ({ open, setOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const formData = new FormData();
       formData.append("fullName", input.fullName);
       formData.append("email", input.email);
@@ -66,10 +67,11 @@ const UpdateProfile = ({ open, setOpen }) => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      toast.error(error.message);
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+      setOpen(false);
     }
-    setOpen(false);
   };
 
   return (
@@ -149,11 +151,12 @@ const UpdateProfile = ({ open, setOpen }) => {
           {loading ? (
             <DialogFooter>
               <button
-                title="Logging In"
+                title="Updating Profile"
                 disabled
                 className="text-white bg-primary/80 mt-6 font-medium rounded-lg text-sm w-full py-2.5 cursor-not-allowed "
               >
                 <Loader2 size={16} className="animate-spin inline mr-2" />
+                Please Wait....
               </button>
             </DialogFooter>
           ) : (

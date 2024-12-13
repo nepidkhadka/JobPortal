@@ -1,10 +1,18 @@
 import React from "react";
 import FilterCard from "../../components/FilterCard";
 import JobCards from "../../components/JobCards";
+import { useGetJobsQuery } from "@/redux/api/jobsApi";
 
 const Jobs = () => {
-  const jobsArray = [1, 2, 3, 4, 5, 5, 6, 7, 8];
-  // const jobsArray = [];
+  const { data, isLoading, isError } = useGetJobsQuery();
+  const allJobs = data?.jobs || [];
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+  if (isError) {
+    return <h1>Something went wrong</h1>;
+  }
 
   return (
     <div className="flex flex-wrap md:flex-nowrap md:py-8 mb-6">
@@ -12,8 +20,8 @@ const Jobs = () => {
         <FilterCard />
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 w-full h-[80vh] overflow-y-auto md:p-3">
-        {jobsArray.length > 0 ? (
-          jobsArray && jobsArray.map((jobs, i) => <JobCards key={i} />)
+        {allJobs.length > 0 ? (
+          allJobs && allJobs.map((jobs, i) => <JobCards key={i} jobs={jobs} />)
         ) : (
           <span>Job's Not Found</span>
         )}

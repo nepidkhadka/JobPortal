@@ -1,5 +1,5 @@
 import { USER_API_URL } from "@/lib/constant";
-import { setLoading, setUser } from "@/redux/userSlice";
+import { setLoading, setUser } from "@/redux/slices/userSlice";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import React, { useState } from "react";

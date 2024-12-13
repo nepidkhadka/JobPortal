@@ -6,13 +6,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { LogOutIcon, User2 } from "lucide-react";
-import { useSelector } from "react-redux";
+import { LogOutIcon, LucideMenu, User2 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { USER_API_URL } from "@/lib/constant";
+import { toast } from "sonner";
+import { setUser } from "@/redux/slices/userSlice";
+import { useState } from "react";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.user);
-
+  const dispatch = useDispatch();
   const nav = useNavigate();
+
+  const [menuopen, setmenuOpen] = useState(false);
 
   const navLinks = [
     {
@@ -32,18 +39,46 @@ const Navbar = () => {
     },
   ];
 
+  // Handle Log Out
+  const handleLogOut = async () => {
+    try {
+      const res = await axios.get(`${USER_API_URL}/logout`, {
+        withCredentials: true,
+      });
+      console.log(res);
+
+      if (res.data.success) {
+        dispatch(setUser(null));
+        nav("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div className="bg-white">
       <div className="container mx-auto">
-        <div className="w-full h-[60px]  shadow-sm flex z-10">
-          <div className="w-full flex items-center justify-between">
+        <div className="w-full h-auto flex z-10">
+          <div className="w-full flex items-center justify-between flex-wrap shadow-sm p-2">
             <div
               className="text-primary font-bold text-[28px] cursor-pointer"
               onClick={() => nav("/")}
             >
               Job<span className="text-primary/40">Portal</span>
             </div>
-            <div className="hidden md:flex items-center gap-4">
+            <div
+              onClick={() => setmenuOpen(!menuopen)}
+              className="menu md:hidden"
+            >
+              <LucideMenu />
+            </div>
+            <div
+              className={`${
+                menuopen ? "flex border-t-[1px] md:border-0" : "hidden md:flex"
+              } p-2 rounded md:rounded-none md:bg-transparent flex-col w-full md:w-auto  md:flex-row items-center gap-4`}
+            >
               {navLinks.map((navitems) => (
                 <NavLink
                   key={navitems.title}
@@ -66,14 +101,28 @@ const Navbar = () => {
               ) : (
                 <Popover>
                   <PopoverTrigger>
-                    <Avatar className="ml-10">
-                      <AvatarImage src="https://github.com/shadcn.png" />
+                    <Avatar className="md:ml-10">
+                      <AvatarImage
+                        src={
+                          user?.profile?.profilePhoto
+                            ? user?.profile?.profilePhoto
+                            : "https://avatars.githubusercontent.com/u/124599"
+                        }
+                        alt="User Photo"
+                      />
                     </Avatar>
                   </PopoverTrigger>
                   <PopoverContent className="bg-slate-50">
                     <div className="flex items-center gap-2">
                       <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarImage
+                          src={
+                            user?.profile?.profilePhoto
+                              ? user?.profile?.profilePhoto
+                              : "https://avatars.githubusercontent.com/u/124599"
+                          }
+                          alt="User Photo"
+                        />
                       </Avatar>
                       <div>
                         <h4 className="font-medium text-black">
@@ -93,7 +142,12 @@ const Navbar = () => {
                       </div>
                       <div className="flex items-center py-2 gap-2">
                         <LogOutIcon />
-                        <Link className="hover:text-primary/80">Log Out</Link>
+                        <Link
+                          onClick={handleLogOut}
+                          className="hover:text-primary/80"
+                        >
+                          Log Out
+                        </Link>
                       </div>
                     </div>
                   </PopoverContent>
