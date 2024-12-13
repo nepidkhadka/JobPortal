@@ -16,12 +16,25 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-const corsOptions = {
-  origin:
-    process.env.FRONTEND_URL || "https://jobportal-frontend-puak.onrender.com",
-  credentials: true,
-};
-app.use(cors(corsOptions));
+
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [process.env.FRONTEND_URL] // Production URL
+    : [process.env.FRONTEND_URL, "http://localhost:5173"]; // Add localhost for dev
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests without 'origin' for tools like Postman
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow cookies
+  })
+);
 
 // API URLS
 app.use("/api/v1/user", userRoute);
