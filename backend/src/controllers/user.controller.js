@@ -8,13 +8,6 @@ export const register = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, role, password } = req.body;
 
-    const file = req.file;
-    let cloudResponse = "";
-    if (file) {
-      const fileUri = getDataURL(file);
-      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-    }
-
     if (!fullName || !email || !phoneNumber || !role || !password) {
       return res.status(400).json({
         message: "Please Enter Every Field",
@@ -30,6 +23,13 @@ export const register = async (req, res) => {
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    const file = req.file;
+    let cloudResponse = "";
+    if (file) {
+      const fileUri = getDataURL(file);
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    }
 
     await User.create({
       fullName,
