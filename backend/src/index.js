@@ -16,8 +16,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 const corsOptions = {
-  origin: "https://jobportal-frontend-puak.onrender.com",
+  origin:
+    process.env.NODE_ENV === "production"
+      ? process.env.FRONTEND_URL
+      : process.env.DEV_FRONTEND_URL,
   credentials: true,
 };
 app.use(cors(corsOptions));
