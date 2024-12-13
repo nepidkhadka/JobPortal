@@ -45,7 +45,6 @@ const Navbar = () => {
       const res = await axios.get(`${USER_API_URL}/logout`, {
         withCredentials: true,
       });
-      console.log(res);
 
       if (res.data.success) {
         dispatch(setUser(null));
@@ -79,19 +78,44 @@ const Navbar = () => {
                 menuopen ? "flex border-t-[1px] md:border-0" : "hidden md:flex"
               } p-2 rounded md:rounded-none md:bg-transparent flex-col w-full md:w-auto  md:flex-row items-center gap-4`}
             >
-              {navLinks.map((navitems) => (
-                <NavLink
-                  key={navitems.title}
-                  className={({ isActive }) =>
-                    `${
-                      isActive ? "text-primary" : "text-black"
-                    }  font-medium hover:text-primary/80 transition`
-                  }
-                  to={navitems.path}
-                >
-                  {navitems.title}
-                </NavLink>
-              ))}
+              {user && user.role == "recruiter" ? (
+                <>
+                  <NavLink
+                    className={({ isActive }) =>
+                      `${
+                        isActive ? "text-primary" : "text-black"
+                      }  font-medium hover:text-primary/80 transition`
+                    }
+                    to="/admin/companies"
+                  >
+                    Companies
+                  </NavLink>
+                  <NavLink
+                    className={({ isActive }) =>
+                      `${
+                        isActive ? "text-primary" : "text-black"
+                      }  font-medium hover:text-primary/80 transition`
+                    }
+                    to="/admin/jobs"
+                  >
+                    Jobs
+                  </NavLink>
+                </>
+              ) : (
+                navLinks.map((navitems) => (
+                  <NavLink
+                    key={navitems.title}
+                    className={({ isActive }) =>
+                      `${
+                        isActive ? "text-primary" : "text-black"
+                      }  font-medium hover:text-primary/80 transition`
+                    }
+                    to={navitems.path}
+                  >
+                    {navitems.title}
+                  </NavLink>
+                ))
+              )}
 
               {!user ? (
                 <div className="flex gap-2">
@@ -134,12 +158,18 @@ const Navbar = () => {
                       </div>
                     </div>
                     <div className="flex flex-col mt-3 border-t gap-2 pt-2">
-                      <div className="flex items-center py-2 gap-2">
-                        <User2 />
-                        <Link to={"/profile"} className="hover:text-primary/80">
-                          View Profile
-                        </Link>
-                      </div>
+                      {user && user.role == "student" && (
+                        <div className="flex items-center py-2 gap-2">
+                          <User2 />
+                          <Link
+                            to={"/profile"}
+                            className="hover:text-primary/80"
+                          >
+                            View Profile
+                          </Link>
+                        </div>
+                      )}
+
                       <div className="flex items-center py-2 gap-2">
                         <LogOutIcon />
                         <Link

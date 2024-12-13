@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const BASEURL =
   import.meta.env.VITE_BACKEND_URL || "http://localhost:8000/api/v1";
-console.log(BASEURL);
 
 export const jobsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASEURL, credentials: "include" }),
