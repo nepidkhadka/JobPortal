@@ -20,8 +20,8 @@ app.use(cookieParser());
 const corsOptions = {
   origin:
     process.env.NODE_ENV === "production"
-      ? process.env.FRONTEND_URL
-      : process.env.DEV_FRONTEND_URL,
+      ? process.env.FRONTEND_URL // Use frontend URL in production
+      : "http://localhost:5173", // Use localhost in development
   credentials: true,
 };
 app.use(cors(corsOptions));
