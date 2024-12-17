@@ -4,7 +4,11 @@ const BASEURL =
   import.meta.env.VITE_BACKEND_URL || "http://localhost:8000/api/v1";
 
 export const jobsApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: BASEURL, credentials: "include" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: BASEURL,
+    credentials: "include",
+    mode: "cors",
+  }),
   reducerPath: "jobsApi",
   tagTypes: ["jobs"],
   endpoints: (builder) => ({
