@@ -27,6 +27,7 @@ export const companyApi = createApi({
     getCompanyById: builder.query({
       query: (id) => `/company/get/${id}`,
       providesTags: ["Company"],
+      transformResponse: (response) => response.company,
     }),
     getAllCompanies: builder.query({
       query: (id) => ({

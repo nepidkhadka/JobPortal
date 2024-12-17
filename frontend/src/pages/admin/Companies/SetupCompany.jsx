@@ -1,26 +1,48 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useUpdateCompanyMutation } from "@/redux/api/companyApi";
+import {
+  useGetCompanyByIdQuery,
+  useUpdateCompanyMutation,
+} from "@/redux/api/companyApi";
+import { setSingleCompany } from "@/redux/slices/companySlice";
 import { ArrowLeft } from "lucide-react";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const SetupCompany = () => {
   const params = useParams();
   const nav = useNavigate();
-  const { singleCompany } = useSelector((store) => store.company);
-  const [updateCompany, { isLoading, data, error, isError, isSuccess }] =
-    useUpdateCompanyMutation();
+  const {
+    data: singleCompany,
+    isError,
+    error,
+    isLoading: singleCompanyLoading,
+  } = useGetCompanyByIdQuery(params.id);
+  console.log(singleCompany);
+
+  const [updateCompany, { isLoading }] = useUpdateCompanyMutation();
+
   const [input, setInput] = useState({
-    name: singleCompany?.name,
+    name: "",
     description: "",
     website: "",
     location: "",
     file: null,
   });
+
+  useEffect(() => {
+    if (singleCompany) {
+      setInput({
+        name: singleCompany.name || "",
+        description: singleCompany.description || "",
+        website: singleCompany.website || "",
+        location: singleCompany.location || "",
+        file: null,
+      });
+    }
+  }, [singleCompany]);
 
   const handleInputChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -52,6 +74,9 @@ const SetupCompany = () => {
       return;
     }
   };
+
+  if (singleCompanyLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error: {error.message}</p>;
 
   return (
     <div className="max-w-4xl mx-auto mb-10">

@@ -50,7 +50,7 @@ const CompaniesTable = ({ data }) => {
                     </PopoverTrigger>
                     <PopoverContent className="w-32 flex flex-col gap-4">
                       <div className="flex items-center gap-2">
-                        <Link to="/admin/edit-company">Edit</Link>
+                        <Link to={`/admin/companies/${company._id}`}>Edit</Link>
                       </div>
                       <div className="flex items-center gap-2">
                         <Link to="/admin/delete-company">Delete</Link>
