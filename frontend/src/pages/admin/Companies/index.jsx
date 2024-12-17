@@ -1,10 +1,18 @@
 import CompaniesTable from "@/components/admin/CompaniesTable";
 import { Button } from "@/components/ui/button";
+import { useGetAllCompaniesQuery } from "@/redux/api/companyApi";
 import React from "react";
+import { use } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Companies = () => {
   const nav = useNavigate();
+  const { user } = useSelector((store) => store.user);
+  const { data, isError, isLoading, error } = useGetAllCompaniesQuery(user._id);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="max-w-6xl mx-auto pt-6">
@@ -22,7 +30,7 @@ const Companies = () => {
         </Button>
       </div>
       <div className="mt-6">
-        <CompaniesTable />
+        <CompaniesTable data={data.companies} />
       </div>
     </div>
   );

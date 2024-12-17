@@ -10,6 +10,7 @@ import JobDescription from "./pages/JobDescription";
 import Companies from "./pages/admin/Companies";
 import Jobs from "./pages/admin/Jobs";
 import CreateCompany from "./pages/admin/Companies/CreateCompany";
+import SetupCompany from "./pages/admin/Companies/SetupCompany";
 
 export default function App() {
   return (
@@ -92,6 +93,14 @@ export default function App() {
           element={
             <Layout>
               <CreateCompany />
+            </Layout>
+          }
+        />
+        <Route
+          path="/admin/companies/:id"
+          element={
+            <Layout>
+              <SetupCompany />
             </Layout>
           }
         />

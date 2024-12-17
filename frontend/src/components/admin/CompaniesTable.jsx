@@ -13,7 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { MoreVertical } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const CompaniesTable = () => {
+const CompaniesTable = ({ data }) => {
   return (
     <div>
       <Table>
@@ -27,32 +27,39 @@ const CompaniesTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {[1, 2, 3].map((i) => (
-            <TableRow key={i}>
-              <TableCell className="font-medium">
-                <Avatar>
-                  <AvatarImage src="https://avatars.githubusercontent.com/u/124599" />
-                </Avatar>
-              </TableCell>
-              <TableCell>Amazon Pvt. Ltd.</TableCell>
-              <TableCell>2024-12-09</TableCell>
-              <TableCell className="text-right">
-                <Popover>
-                  <PopoverTrigger>
-                    <MoreVertical />
-                  </PopoverTrigger>
-                  <PopoverContent className="w-32 flex flex-col gap-4">
-                    <div className="flex items-center gap-2">
-                      <Link to="/admin/edit-company">Edit</Link>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Link to="/admin/delete-company">Delete</Link>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-          ))}
+          {data &&
+            data.map((company, i) => (
+              <TableRow key={i}>
+                <TableCell className="font-medium">
+                  <Avatar>
+                    <AvatarImage
+                      src={
+                        company.logo
+                          ? company.logo
+                          : "https://avatars.githubusercontent.com/u/124599"
+                      }
+                    />
+                  </Avatar>
+                </TableCell>
+                <TableCell>{company.name}</TableCell>
+                <TableCell>{company.createdAt?.split("T")[0]}</TableCell>
+                <TableCell className="text-right">
+                  <Popover>
+                    <PopoverTrigger>
+                      <MoreVertical />
+                    </PopoverTrigger>
+                    <PopoverContent className="w-32 flex flex-col gap-4">
+                      <div className="flex items-center gap-2">
+                        <Link to="/admin/edit-company">Edit</Link>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Link to="/admin/delete-company">Delete</Link>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

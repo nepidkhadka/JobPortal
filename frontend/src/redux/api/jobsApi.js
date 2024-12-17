@@ -5,6 +5,7 @@ const BASEURL =
 
 export const jobsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASEURL, credentials: "include" }),
+  reducerPath: "jobsApi",
   tagTypes: ["jobs"],
   endpoints: (builder) => ({
     getJobs: builder.query({
