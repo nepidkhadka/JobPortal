@@ -29,7 +29,7 @@ const Companies = () => {
           New Company
         </Button>
       </div>
-      <div className="mt-6">
+      <div className="my-6">
         <CompaniesTable data={data.companies} />
       </div>
     </div>

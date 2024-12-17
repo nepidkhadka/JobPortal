@@ -55,7 +55,11 @@ const CreateCompany = () => {
             />
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="mt-4">
+            <Button
+              onClick={() => nav("/admin/companies")}
+              variant="outline"
+              className="mt-4"
+            >
               Cancel
             </Button>
             <Button
