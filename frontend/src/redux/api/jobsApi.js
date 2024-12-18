@@ -32,6 +32,14 @@ export const jobsApi = createApi({
       }),
       invalidatesTags: ["jobs"],
     }),
+    postJob: builder.mutation({
+      query: (data) => ({
+        url: "/job/post",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["jobs"],
+    }),
   }),
 });
 
@@ -40,4 +48,5 @@ export const {
   useGetJobsByIdQuery,
   useApplyJobMutation,
   useGetAdminJobsQuery,
+  usePostJobMutation,
 } = jobsApi;
