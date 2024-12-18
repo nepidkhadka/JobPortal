@@ -79,7 +79,8 @@ export const getCompanyById = async (req, res) => {
 // Update Company
 export const updateCompany = async (req, res) => {
   try {
-    const { name, website, description, location } = req.body;
+    const { name, website, description, locations } = req.body;
+
     const file = req.file;
 
     let cloudResponse = "";
@@ -93,7 +94,7 @@ export const updateCompany = async (req, res) => {
       name,
       website,
       description,
-      location,
+      locations,
       logo: cloudResponse.secure_url,
     };
 
