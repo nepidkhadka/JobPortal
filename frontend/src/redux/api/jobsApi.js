@@ -16,6 +16,10 @@ export const jobsApi = createApi({
       query: () => "/job/get",
       providesTags: ["jobs"],
     }),
+    getAdminJobs: builder.query({
+      query: () => "/job/getadminjobs",
+      providesTags: ["adminjobs"],
+    }),
     getJobsById: builder.query({
       query: (id) => `/job/get/${id}`,
       transformResponse: (response) => response.job,
@@ -31,5 +35,9 @@ export const jobsApi = createApi({
   }),
 });
 
-export const { useGetJobsQuery, useGetJobsByIdQuery, useApplyJobMutation } =
-  jobsApi;
+export const {
+  useGetJobsQuery,
+  useGetJobsByIdQuery,
+  useApplyJobMutation,
+  useGetAdminJobsQuery,
+} = jobsApi;

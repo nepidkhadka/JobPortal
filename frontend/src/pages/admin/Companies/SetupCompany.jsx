@@ -28,7 +28,7 @@ const SetupCompany = () => {
     name: "",
     description: "",
     website: "",
-    location: "",
+    locations: "",
     file: null,
   });
 
@@ -38,7 +38,7 @@ const SetupCompany = () => {
         name: singleCompany.name || "",
         description: singleCompany.description || "",
         website: singleCompany.website || "",
-        location: singleCompany.location || "",
+        locations: singleCompany.locations || "",
         file: null,
       });
     }
@@ -59,7 +59,7 @@ const SetupCompany = () => {
     fromdata.append("name", input.name);
     fromdata.append("description", input.description);
     fromdata.append("website", input.website);
-    fromdata.append("location", input.location);
+    fromdata.append("locations", input.locations);
     if (input.file) {
       fromdata.append("file", input.file);
     }
@@ -120,9 +120,9 @@ const SetupCompany = () => {
               <Label className="">Location :</Label>
               <Input
                 onChange={handleInputChange}
-                value={input.location}
+                value={input.locations}
                 type="text"
-                name="location"
+                name="locations"
                 className="my-2 rounded-none"
                 placeholder="Eg. Kathmandu, Nepal"
               />

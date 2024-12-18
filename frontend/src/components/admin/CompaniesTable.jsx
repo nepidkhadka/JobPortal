@@ -13,7 +13,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { MoreVertical } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const CompaniesTable = ({ data }) => {
+const CompaniesTable = ({ data, search }) => {
+  const companies = data.filter((company) =>
+    company.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div>
       <Table>
@@ -27,8 +31,8 @@ const CompaniesTable = ({ data }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data &&
-            data.map((company, i) => (
+          {companies &&
+            companies.map((company, i) => (
               <TableRow key={i}>
                 <TableCell className="font-medium">
                   <Avatar>
