@@ -18,12 +18,12 @@ const FeaturedJobs = () => {
         Latest <span className="text-primary/40">Jobs</span>
       </h2>
       {/* Job Cards */}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-10 py-5">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-10 py-5">
         {allJobs.length <= 0 ? (
           <span>No Jobs Available</span>
         ) : (
           allJobs
-            .slice(0, 8)
+            .slice(0, 6)
             .map((job) => <JobCards key={job._id} jobs={job} />)
         )}
       </div>

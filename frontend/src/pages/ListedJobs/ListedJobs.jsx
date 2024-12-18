@@ -19,7 +19,7 @@ const Jobs = () => {
       <div className="w-full md:w-1/5">
         <FilterCard />
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 w-full h-[80vh] overflow-y-auto md:p-3">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6 w-full h-[80vh] overflow-y-auto md:p-3">
         {allJobs.length > 0 ? (
           allJobs && allJobs.map((jobs, i) => <JobCards key={i} jobs={jobs} />)
         ) : (
