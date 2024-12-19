@@ -17,17 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// const corsOptions = {
-//   origin:
-//     process.env.NODE_ENV === "production"
-//       ? process.env.FRONTEND_URL // Use frontend URL in production
-//       : "http://localhost:5173", // Use localhost in development
-//   credentials: true,
-// };
-// app.use(cors(corsOptions));
-
 const corsOptions = {
-  origin: "*",
+  origin:
+    process.env.NODE_ENV === "production"
+      ? process.env.FRONTEND_URL // Use frontend URL in production
+      : process.env.DEV_FRONTEND_URL, // Use localhost in development
   credentials: true,
 };
 app.use(cors(corsOptions));
