@@ -12,6 +12,7 @@ import Jobs from "./pages/admin/Jobs";
 import CreateCompany from "./pages/admin/Companies/CreateCompany";
 import SetupCompany from "./pages/admin/Companies/SetupCompany";
 import CreateJob from "./pages/admin/Jobs/CreateJob";
+import Applicants from "./pages/admin/Applicants";
 
 export default function App() {
   return (
@@ -94,6 +95,22 @@ export default function App() {
           element={
             <Layout>
               <CreateJob />
+            </Layout>
+          }
+        />
+        <Route
+          path="/admin/jobs/:id"
+          element={
+            <Layout>
+              <CreateJob />
+            </Layout>
+          }
+        />
+        <Route
+          path="/admin/jobs/:id/applicants"
+          element={
+            <Layout>
+              <Applicants />
             </Layout>
           }
         />

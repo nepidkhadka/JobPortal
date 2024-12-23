@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { MoreVertical } from "lucide-react";
+import { Edit2, Eye, MoreVertical } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const JobsTable = ({ data, search }) => {
@@ -55,12 +55,24 @@ const JobsTable = ({ data, search }) => {
                     <PopoverTrigger>
                       <MoreVertical />
                     </PopoverTrigger>
-                    <PopoverContent className="w-32 flex flex-col gap-4">
+                    <PopoverContent className="w-36 flex flex-col gap-4">
                       <div className="flex items-center gap-2">
-                        <Link to={`/admin/companies/${job._id}`}>Edit</Link>
+                        <Link
+                          to={`/admin/jobs/${job._id}`}
+                          className="flex items-center gap-2"
+                        >
+                          <Edit2 size={16} />
+                          Edit
+                        </Link>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Link to="/admin/delete-company">Delete</Link>
+                        <Link
+                          to={`/admin/jobs/${job._id}/applicants`}
+                          className="flex items-center gap-2"
+                        >
+                          <Eye size={16} />
+                          Applicants
+                        </Link>
                       </div>
                     </PopoverContent>
                   </Popover>
