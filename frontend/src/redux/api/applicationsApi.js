@@ -10,12 +10,17 @@ export const applicationsApi = createApi({
     mode: "cors",
   }),
   reducerPath: "applicationsApi",
-  tagTypes: ["Applications"],
+  tagTypes: ["Applications", "AppliedApplications"],
   endpoints: (builder) => ({
     getApplicationsById: builder.query({
       query: (id) => `/application/${id}/applicants`,
       providesTags: ["Applications"],
       transformResponse: (response) => response.job.applications,
+    }),
+    getAppliedApplications: builder.query({
+      query: () => "/application/get",
+      providesTags: ["AppliedApplications"],
+      transformResponse: (response) => response.application,
     }),
     updateApplication: builder.mutation({
       query: ({ id, data }) => ({
@@ -28,5 +33,8 @@ export const applicationsApi = createApi({
   }),
 });
 
-export const { useGetApplicationsByIdQuery, useUpdateApplicationMutation } =
-  applicationsApi;
+export const {
+  useGetApplicationsByIdQuery,
+  useUpdateApplicationMutation,
+  useGetAppliedApplicationsQuery,
+} = applicationsApi;

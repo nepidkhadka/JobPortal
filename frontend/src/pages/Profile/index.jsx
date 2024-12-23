@@ -3,6 +3,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import UpdateProfile from "@/components/UpdateProfile";
+import { useGetAppliedApplicationsQuery } from "@/redux/api/applicationsApi";
 import { Contact, Mail, Pen } from "lucide-react";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,6 +11,11 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.user);
+
+  const { data, isLoading, error } = useGetAppliedApplicationsQuery();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="py-8">
@@ -86,7 +92,7 @@ const Profile = () => {
         <h2 className="font-semibold tracking-wider mb-2 text-lg">
           Applied Jobs{" "}
         </h2>
-        <AppliedJobsTable />
+        <AppliedJobsTable data={data} />
       </div>
 
       <UpdateProfile open={open} setOpen={setOpen} />

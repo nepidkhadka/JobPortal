@@ -10,7 +10,7 @@ import {
   TableFooter,
 } from "@/components/ui/table";
 
-const AppliedJobsTable = () => {
+const AppliedJobsTable = ({ data }) => {
   return (
     <div>
       <Table>
@@ -24,18 +24,29 @@ const AppliedJobsTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {[1, 2, 3].map((invoice, i) => (
-            <TableRow key={i}>
-              <TableCell className="font-medium">11/{i + 1}/2024</TableCell>
-              <TableCell>Backend Developer</TableCell>
-              <TableCell>Amazon Pvt. Ltd.</TableCell>
-              <TableCell className="text-right">
-                <span className="bg-primary text-white p-1 rounded-sm">
-                  Pending
-                </span>
-              </TableCell>
-            </TableRow>
-          ))}
+          {data &&
+            data.map((application, i) => (
+              <TableRow key={i}>
+                <TableCell className="font-medium">
+                  {application.createdAt.split("T")[0]}
+                </TableCell>
+                <TableCell>{application.job.title}</TableCell>
+                <TableCell>{application.job.company.name}</TableCell>
+                <TableCell className="text-right">
+                  <span
+                    className={`bg-primary text-white p-2 rounded-sm capitalize ${
+                      application?.status === "accepted"
+                        ? "bg-green-500"
+                        : "" || application?.status === "rejected"
+                        ? "bg-red-500"
+                        : ""
+                    } `}
+                  >
+                    {application.status}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
         {/* <TableFooter>
           <TableRow>
