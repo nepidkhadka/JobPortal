@@ -81,43 +81,43 @@ const JobDescription = () => {
       <div>
         <h3 className="font-bold my-3">
           Role:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob?.title}
           </span>
         </h3>
         <h3 className="font-bold my-3">
           Location:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob?.locations}
           </span>
         </h3>
         <h3 className="font-bold my-3">
           Experience:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob?.experienceLevel} Years
           </span>
         </h3>
         <h3 className="font-bold my-3">
           Salary:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob?.salary}LPA
           </span>
         </h3>
         <h3 className="font-bold my-3">
           Total Applicants:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob?.applications?.length}
           </span>
         </h3>
         <h3 className="font-bold my-3">
           Posted Date:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob?.createdAt?.split("T")[0]}
           </span>
         </h3>
         <h3 className="font-bold my-3">
           Description:
-          <p className="font-medium  text-gray-800 leading-7 text-justify mt-2">
+          <p className="font-medium text-sm text-gray-800 leading-7 text-justify mt-2">
             {singleJob?.description}
           </p>
         </h3>
@@ -128,13 +128,13 @@ const JobDescription = () => {
       <div>
         <h3 className="font-bold my-3">
           Name:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob.company.name}
           </span>
         </h3>
         <h3 className="font-bold my-3">
           Description:{" "}
-          <span className="font-medium text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob.company.description ? (
               singleJob.company.description
             ) : (
@@ -144,7 +144,7 @@ const JobDescription = () => {
         </h3>
         <h3 className="font-bold my-3">
           Website:{" "}
-          <span className="font-medium text-lg text-gray-800">
+          <span className="font-medium text-sm text-gray-800">
             {singleJob.company.website ? (
               <Link
                 className="underline italic"
