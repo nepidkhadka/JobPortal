@@ -37,10 +37,12 @@ const CreateJob = () => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const handleSelectChange = (value) => {
-    setInput({ ...input, companyId: value });
+  const handleSelectChange = (field, value) => {
+    setInput((prevInput) => ({
+      ...prevInput,
+      [field]: value,
+    }));
   };
-
   const [postjob, { isLoading: postJobLoading }] = usePostJobMutation();
 
   const handleFormSubmit = async (e) => {
@@ -121,16 +123,22 @@ const CreateJob = () => {
                 placeholder="Eg: 120k PA"
               />
             </div>
-            <div className="">
+            <div className="flex flex-col gap-4">
               <Label className="">Job Type :</Label>
-              <Input
-                onChange={handleInputChange}
-                value={input.jobType}
-                type="text"
-                name="jobType"
-                className="my-2 rounded-none"
-                placeholder="Eg: 120k PA"
-              />
+              <Select
+                onValueChange={(value) => handleSelectChange("jobType", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Job Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="FullTime">Fulltime</SelectItem>
+                  <SelectItem value="PartTime">PartTime</SelectItem>
+                  <SelectItem value="Contract">Contract</SelectItem>
+                  <SelectItem value="Project">Project</SelectItem>
+                  <SelectItem value="Others">Others</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="">
               <Label className="">Experience Level :</Label>
@@ -156,18 +164,18 @@ const CreateJob = () => {
             </div>
             <div className="flex flex-col gap-4">
               <Label className="">Company :</Label>
-              <Select onValueChange={handleSelectChange}>
+              <Select
+                onValueChange={(value) =>
+                  handleSelectChange("companyId", value)
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select Company" />
                 </SelectTrigger>
                 <SelectContent>
                   {data &&
                     data.companies.map((company) => (
-                      <SelectItem
-                        key={company._id}
-                        name="companyId"
-                        value={company._id}
-                      >
+                      <SelectItem key={company._id} value={company._id}>
                         {company.name}
                       </SelectItem>
                     ))}
