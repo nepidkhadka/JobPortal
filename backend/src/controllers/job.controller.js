@@ -64,12 +64,20 @@ export const postJob = async (req, res) => {
 export const getAllJobs = async (req, res) => {
   try {
     const keyword = req.query.keyword || "";
-    const query = {
-      $or: [
-        { title: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } },
-      ],
-    };
+    let query = {};
+
+    if (keyword) {
+      const words = keyword.split(/\s+/).filter(Boolean);
+
+      const regexArray = words.map((word) => new RegExp(word, "i"));
+
+      query = {
+        $or: [
+          { title: { $in: regexArray } },
+          { description: { $in: regexArray } },
+        ],
+      };
+    }
     const job = await Job.find(query)
       .populate({
         path: "company",
