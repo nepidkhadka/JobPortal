@@ -1,19 +1,25 @@
 import JobCards from "@/components/JobCards";
+import { useSearchJobsQuery } from "@/redux/api/jobsApi";
 import React from "react";
-
-const jobsArray = [
-  1, 2, 3, 243, 43, 7, 8, 8, 8, 8, 8, 8, 8, 88, 5, 5, 56, 56, 56,
-];
+import { useSearchParams } from "react-router-dom";
 
 const BrowseJobs = () => {
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("keyword");
+
+  const { data, error, isLoading } = useSearchJobsQuery(search);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <div className="py-8">
       <h2 className="text-xl text-gray-700 font-bold">
-        Search Result ({jobsArray.length})
+        Search Result ({data.length})
       </h2>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 mt-4">
-        {jobsArray.length > 0 ? (
-          jobsArray && jobsArray.map((jobs, i) => <JobCards key={i} />)
+        {data.length > 0 ? (
+          data && data.map((jobs, i) => <JobCards jobs={jobs} key={i} />)
         ) : (
           <span>Job's Not Found</span>
         )}
