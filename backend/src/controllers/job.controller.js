@@ -72,10 +72,7 @@ export const getAllJobs = async (req, res) => {
       const regexArray = words.map((word) => new RegExp(word, "i"));
 
       query = {
-        $or: [
-          { title: { $in: regexArray } },
-          { description: { $in: regexArray } },
-        ],
+        $or: [{ title: { $in: regexArray } }],
       };
     }
     const job = await Job.find(query)
