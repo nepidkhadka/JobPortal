@@ -53,7 +53,7 @@ const JobCards = ({ jobs }) => {
       </span>
       <div className="lowerpart border-t-2 mt-1">
         <p className="mt-4 text-sm text-black/90 ">
-          {jobs?.description.slice(0, 50) + "..."}
+          {jobs?.description.slice(0, 40) + "..."}
         </p>
         <div className="company flex justify-start items-center mt-4 mb-3">
           <img
